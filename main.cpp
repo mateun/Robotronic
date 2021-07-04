@@ -13,8 +13,8 @@
 #pragma comment(lib, "glew32.lib")
 
 
-GLuint vao;
-GLuint shader;
+
+bool shouldRun = true;
 
 #define GLERR \
     GLenum err = glGetError(); \
@@ -24,12 +24,7 @@ GLuint shader;
 
 
 
-void render(GLuint shader) {
-    glBindVertexArray(vao);
-    glUseProgram(shader);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-    GLERR
-}
+
 
 SDL_GLContext initOpenGL(SDL_Window* window) {
     SDL_GLContext glContext = SDL_GL_CreateContext(window);
@@ -51,6 +46,10 @@ SDL_GLContext initOpenGL(SDL_Window* window) {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     return glContext;
+}
+
+void stopGame() {
+    shouldRun = false;
 }
 
 
@@ -76,22 +75,22 @@ int main(int argc, char** args) {
 
     game->init();
 
-    bool running = true;
+
     std::vector<SDL_Event> frameEvents;
-    while (running) {
+    while (shouldRun) {
 
         frameEvents.clear();
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
-                running = false;
+                shouldRun = false;
                 break;
             }
             frameEvents.push_back(event);
         }
 
         game->preRender();
-        game->update(mainFrameTimer.getDurationInSeconds());
+        game->update(mainFrameTimer.getDurationInSeconds(), frameEvents);
         game->render(mainFrameTimer.getDurationInSeconds());
 
         SDL_GL_SwapWindow(window);

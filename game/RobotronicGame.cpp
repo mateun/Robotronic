@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include "RobotronicGame.h"
 
+extern void stopGame();
+
 void RobotronicGame::init() {
     startButton = new View(new float[]{0.3, 0.9, 0.4, 1});
     settingsButton = new View(new float[] { 0.5, 0.1, 0.2, 1});
@@ -16,8 +18,14 @@ void RobotronicGame::shutdown() {
 
 }
 
-void RobotronicGame::update(float frameTimeInSeconds) {
-
+void RobotronicGame::update(float frameTimeInSeconds, const std::vector<SDL_Event>& frameEvents) {
+    for (auto fe : frameEvents) {
+        if (fe.type == SDL_KEYDOWN) {
+            if (fe.key.keysym.sym = SDLK_ESCAPE) {
+                stopGame();
+            }
+        }
+    }
 }
 
 void RobotronicGame::render(float frameTimeInSeconds) {
