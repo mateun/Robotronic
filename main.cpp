@@ -75,6 +75,7 @@ int main(int argc, char** args) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 shouldRun = false;
+                game->shutdown();
                 break;
             }
             frameEvents.push_back(event);
