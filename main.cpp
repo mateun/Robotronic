@@ -16,15 +16,6 @@
 
 bool shouldRun = true;
 
-#define GLERR \
-    GLenum err = glGetError(); \
-    if (err != 0) { \
-        SDL_Log("gl error %d\n", err); \
-    } \
-
-
-
-
 
 SDL_GLContext initOpenGL(SDL_Window* window) {
     SDL_GLContext glContext = SDL_GL_CreateContext(window);
