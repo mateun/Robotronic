@@ -15,6 +15,13 @@ public:
     virtual void preRender() = 0;
     virtual void render(float frameTimeInSeconds) = 0;
     virtual void shutdown() = 0;
+
+    int getScreenWidth() { return screenWidth;}
+    int getScreenHeight() { return screenHeight;}
+
+protected:
+    int screenWidth;
+    int screenHeight;
 };
 
 #endif //ROBOTRONIC_GAME_H

@@ -18,7 +18,7 @@ class View {
 
 public:
     View(float* color);
-    void drawAtNormalizedCoords(glm::vec2 position, glm::vec2 dimension);
+    void drawAtNormalizedCoords(glm::vec2 position, glm::vec2 dimension, glm::vec2 screenSize);
 
 
 private:

@@ -13,10 +13,7 @@
 
 
 View::View(float* color) {
-    ScreenContext screenContext;
-    int w = screenContext.getScreenWidth();
-    int h = screenContext.getScreenHeight();
-    float ratio = (float) w/h;
+
     _projectionMatrix = glm::ortho<float>(-1, 1, -1, 1, 0.1, 100);
     if (color == nullptr) {
         _color = new float[4];
@@ -30,7 +27,7 @@ View::View(float* color) {
 
 }
 
-void View::drawAtNormalizedCoords(glm::vec2 position, glm::vec2 dimension) {
+void View::drawAtNormalizedCoords(glm::vec2 position, glm::vec2 dimension, glm::vec2 screenSize) {
     ShaderFactory shaderFactory;
     GLuint shader =shaderFactory.getDefault2DShader();
 
@@ -40,8 +37,8 @@ void View::drawAtNormalizedCoords(glm::vec2 position, glm::vec2 dimension) {
 
     glm::mat4 viewMatrix = glm::lookAt(glm::vec3(0, 0, 0.11), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 
-    ScreenContext sc;
-    float ar = (float) sc.getScreenWidth() / sc.getScreenHeight();
+
+    float ar = (float) screenSize.x / screenSize.y;
     glm::mat4 scaleMatrix = glm::scale(glm::mat4(1), glm::vec3(dimension.x, dimension.y * ar, 1));
     glm::mat4 translationMatrix = glm::translate(glm::mat4(1), glm::vec3(position.x, position.y, 0));
     glm::mat4 modelMatrix = translationMatrix * scaleMatrix;

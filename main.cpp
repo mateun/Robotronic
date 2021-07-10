@@ -46,22 +46,27 @@ void stopGame() {
 
 
 int main(int argc, char** args) {
+
+
+
     if (SDL_Init(SDL_INIT_VIDEO) == -1) {
         SDL_Log("error initializing. %s", SDL_GetError());
         return 1;
     }
 
-    ScreenContext screenContext(800, 600);
+    Game* game = new RobotronicGame();
+
+    //ScreenContext screenContext(game->getScreenWidth(), game->getScreenHeight());
     SDL_Window* window = SDL_CreateWindow("test 0.0.1",
                                           300, 100,
-                                          screenContext.getScreenWidth(),
-                                          screenContext.getScreenHeight(),
+                                          game->getScreenWidth(),
+                                          game->getScreenHeight(),
                                           SDL_WINDOW_OPENGL);
     SDL_GLContext  glContext = initOpenGL(window);
 
 
-    glViewport(0, 0, 800, 600);
-    Game* game = new RobotronicGame();
+    glViewport(0, 0, game->getScreenWidth(), game->getScreenHeight());
+
     Timer mainFrameTimer;
 
     game->init();

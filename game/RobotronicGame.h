@@ -11,16 +11,30 @@
 
 class RobotronicGame : public Game {
 
+
+public:
+    RobotronicGame();
+
+public:
+
     void update(float frameTimeInSeconds, const std::vector<SDL_Event>& frameEvents) override;
     void render(float frameTimeInSeconds) override;
     void init() override;
     void shutdown() override;
     void preRender() override;
 
+
+
 private:
     View* startButton;
     View* exitButton;
     View* settingsButton;
+
+    float heightSine = 0;
+    float heightValue = 0;
+
+
+
 };
 
 #endif //ROBOTRONIC_ROBOTRONICGAME_H
