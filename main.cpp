@@ -46,9 +46,6 @@ void stopGame() {
 
 
 int main(int argc, char** args) {
-
-
-
     if (SDL_Init(SDL_INIT_VIDEO) == -1) {
         SDL_Log("error initializing. %s", SDL_GetError());
         return 1;
@@ -73,6 +70,7 @@ int main(int argc, char** args) {
 
 
     std::vector<SDL_Event> frameEvents;
+    mainFrameTimer.start();
     while (shouldRun) {
 
         frameEvents.clear();
@@ -89,12 +87,10 @@ int main(int argc, char** args) {
         game->preRender();
         game->update(mainFrameTimer.getDurationInSeconds(), frameEvents);
         game->render(mainFrameTimer.getDurationInSeconds());
-
         SDL_GL_SwapWindow(window);
+
         mainFrameTimer.stop();
-
         mainFrameTimer.start();
-
     }
 
 

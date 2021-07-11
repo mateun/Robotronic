@@ -5,6 +5,7 @@
 
 #include "vao_factory.h"
 #include "SDL.h"
+#include "timer.h"
 
 GLuint VAOFactory::_unitRectVAO = 0;
 
@@ -78,5 +79,7 @@ void VAOFactory::initUnitRectVAO() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6*4, indices, GL_STATIC_DRAW);
     glBindVertexArray(0);
+
+
 }
 

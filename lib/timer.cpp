@@ -16,7 +16,7 @@ void Timer::start() {
 void Timer::stop() {
     Uint64 stopTime = SDL_GetPerformanceCounter();
     Uint64 dur = stopTime - _lastStart;
-    _lastDurationInSeconds = dur / _freq;
+    _lastDurationInSeconds =  (double) dur / _freq;
 }
 
 double Timer::getDurationInSeconds() {

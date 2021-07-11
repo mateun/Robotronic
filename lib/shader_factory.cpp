@@ -99,6 +99,7 @@ GLuint ShaderFactory::createFromStrings(const std::string &vertexShaderSource, c
 }
 
 void ShaderFactory::initDefaultShader() {
+    SDL_Log("in init default shader.");
     std::string basePath(SDL_GetBasePath());
     _default2DShader = createFromFileNames(basePath + "../lib/builtin_shaders/vshader2d.glsl",
                                            basePath + "../lib/builtin_shaders/fshader2d.glsl");

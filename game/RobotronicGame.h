@@ -8,6 +8,7 @@
 #include "../lib/view.h"
 #include <SDL.h>
 #include <vector>
+#include <glm/glm.hpp>
 
 class RobotronicGame : public Game {
 
@@ -24,14 +25,22 @@ public:
     void preRender() override;
 
 
+private:
+    void updatePlayerPos(float frameTime);
+
+
 
 private:
-    View* startButton;
-    View* exitButton;
-    View* settingsButton;
+    View* player;
+    View* secondPlatform;
+    View* firstPlatform;
 
     float heightSine = 0;
     float heightValue = 0;
+    glm::vec2 playerAcceleration;
+    glm::vec2 playerVelocity;
+    glm::vec2 playerPos;
+    int frame = 0;
 
 
 
