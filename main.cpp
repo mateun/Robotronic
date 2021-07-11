@@ -28,7 +28,7 @@ SDL_GLContext initOpenGL(SDL_Window* window) {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GLContext ctx = SDL_GL_CreateContext(window);
-    SDL_GL_SetSwapInterval(0);  // NO VSync
+    SDL_GL_SetSwapInterval(1);  // NO VSync
 
     GLenum r = glewInit();
     if (r != GLEW_OK) {
@@ -117,8 +117,8 @@ int main(int argc, char** args) {
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         SDL_GL_SwapWindow(window);
-
         mainFrameTimer.stop();
+
         mainFrameTimer.start();
     }
 

@@ -20,6 +20,7 @@ RobotronicGame::RobotronicGame() {
     screenHeight = 1080;
     playerPos = glm::vec2(-0.9, -0.0);
     playerVelocity = glm::vec2{0,0};
+    playerJumpAcceleration = glm::vec2(0, 0);
 
     float ar = (float) screenWidth / screenHeight;
     platformData[0].position = {-1, -1};
@@ -51,10 +52,17 @@ void RobotronicGame::shutdown() {
 
 void RobotronicGame::updatePlayerPos(float frameTime) {
     frame++;
-    //SDL_Log("frame: %d ft: %f", frame, frameTime);
-    // Let gravity be -0.1 units per second
+
     float gravity = -0.001;
-    playerAcceleration.y = gravity * frameTime;
+    float jumpy = 0;
+    if (isJumping) {
+        playerJumpAcceleration.y += (gravity*10000 * frameTime);
+        if (playerJumpAcceleration.y < 0) {
+            playerJumpAcceleration.y = 0;
+        }
+    }
+
+    playerAcceleration.y = (playerJumpAcceleration.y + gravity) * frameTime;
     playerAcceleration.x = 0;
     playerVelocity += playerAcceleration;
     playerPos += playerVelocity;
@@ -66,6 +74,7 @@ void RobotronicGame::updatePlayerPos(float frameTime) {
         if ((playerPos.y) < data.topEdgeY ) {
             playerPos.y = data.topEdgeY;
             playerVelocity.y = 0;
+            isJumping = false;
             break;
         }
     }
@@ -91,10 +100,16 @@ void RobotronicGame::update(float frameTimeInSeconds, const std::vector<SDL_Even
             if (fe.key.keysym.sym == SDLK_SPACE) {
                 spacePressed = true;
             }
+
+            if (fe.key.keysym.sym == SDLK_j) {
+                if (isJumping == false) {
+                    isJumping = true;
+                    playerJumpAcceleration = glm::vec2(0, 0.38);
+                }
+
+            }
         }
     }
-
-
 
     if (singleStepMode && spacePressed) {
         updatePlayerPos(2);
@@ -119,8 +134,11 @@ void RobotronicGame::render(float frameTimeInSeconds) {
 
     ImGui::Begin("Player debug info");   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
     ImGui::Text("PlayerPos: %f/%f", playerPos.x, playerPos.y);
+    ImGui::Text("frameTime: %f", frameTimeInSeconds);
     ImGui::Text("PlayerAcc: %f/%f", playerAcceleration.x, playerAcceleration.y);
     ImGui::Text("PlayerVel: %f/%f", playerVelocity.x, playerVelocity.y);
+    ImGui::Text("PlayerJumpAcc.: %f", playerJumpAcceleration.y);
+    ImGui::Text("isJumping.: %d", isJumping);
     ImGui::Text("Platform topEdge: %f", platformData[0].topEdgeY);
     ImGui::End();
 

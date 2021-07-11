@@ -48,9 +48,11 @@ private:
     float heightSine = 0;
     float heightValue = 0;
     glm::vec2 playerAcceleration;
+    glm::vec2 playerJumpAcceleration;
     glm::vec2 playerVelocity;
     glm::vec2 playerPos;
     int frame = 0;
+    bool isJumping = false;
 
     Platform platformData[2];
 
