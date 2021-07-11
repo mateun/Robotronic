@@ -8,6 +8,7 @@
 #include "timer.h"
 
 GLuint VAOFactory::_unitRectVAO = 0;
+GLuint VAOFactory::_orthoGridVAO = 0;
 
 GLuint VAOFactory::getUnitRectVAO() {
     if (_unitRectVAO == 0) {
@@ -15,6 +16,13 @@ GLuint VAOFactory::getUnitRectVAO() {
     }
 
     return _unitRectVAO;
+}
+
+GLuint VAOFactory::getOrthoGridVAO() {
+    if (_orthoGridVAO == 0) {
+        initOrthoGridVAO();
+    }
+    return _orthoGridVAO;
 }
 
 void VAOFactory::initOrthoGridVAO() {

@@ -10,6 +10,14 @@
 #include <vector>
 #include <glm/glm.hpp>
 
+
+class Platform {
+public:
+    glm::vec2 position;
+    glm::vec2 dimension;
+    float topEdgeY = 0;
+};
+
 class RobotronicGame : public Game {
 
 
@@ -35,6 +43,8 @@ private:
     View* secondPlatform;
     View* firstPlatform;
 
+    GLuint orthoGridVAO;
+
     float heightSine = 0;
     float heightValue = 0;
     glm::vec2 playerAcceleration;
@@ -42,8 +52,14 @@ private:
     glm::vec2 playerPos;
     int frame = 0;
 
+    Platform platformData[2];
+
+    bool singleStepMode = true;
+    bool spacePressed = false;
+
 
 
 };
+
 
 #endif //ROBOTRONIC_ROBOTRONICGAME_H

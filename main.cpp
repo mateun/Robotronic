@@ -7,6 +7,11 @@
 #include "lib/timer.h"
 #include "lib/screen_context.h"
 
+#include "lib/shader_factory.h"
+#include "lib/imgui/imgui.h"
+#include "lib/imgui/imgui_impl_sdl.h"
+#include "lib/imgui/imgui_impl_opengl3.h"
+
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "SDL2.lib")
 #pragma comment(lib, "SDL2main.lib")
@@ -64,6 +69,16 @@ int main(int argc, char** args) {
 
     glViewport(0, 0, game->getScreenWidth(), game->getScreenHeight());
 
+
+    // Init IMGUI
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGui_ImplSDL2_InitForOpenGL(window, glContext);
+    const char* glsl_version = "#version 430";
+    ImGui_ImplOpenGL3_Init(glsl_version);
+    ImGui::StyleColorsDark();
+
     Timer mainFrameTimer;
 
     game->init();
@@ -71,11 +86,13 @@ int main(int argc, char** args) {
 
     std::vector<SDL_Event> frameEvents;
     mainFrameTimer.start();
+    bool showWindow = true;
     while (shouldRun) {
 
         frameEvents.clear();
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
+            ImGui_ImplSDL2_ProcessEvent(&event);
             if (event.type == SDL_QUIT) {
                 shouldRun = false;
                 game->shutdown();
@@ -84,9 +101,21 @@ int main(int argc, char** args) {
             frameEvents.push_back(event);
         }
 
+        {
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplSDL2_NewFrame(window);
+            ImGui::NewFrame();
+
+        }
+
+
         game->preRender();
         game->update(mainFrameTimer.getDurationInSeconds(), frameEvents);
         game->render(mainFrameTimer.getDurationInSeconds());
+        ImGui::Render();
+
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         SDL_GL_SwapWindow(window);
 
         mainFrameTimer.stop();
