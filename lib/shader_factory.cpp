@@ -8,6 +8,7 @@
 #include "filesutils.h"
 
 GLuint ShaderFactory::_default2DShader = 0;
+Shader* ShaderFactory::_default2DShaderObject = nullptr;
 
 ShaderFactory::ShaderFactory() {
 
@@ -19,6 +20,18 @@ GLuint ShaderFactory::getDefault2DShader() {
     }
 
     return _default2DShader;
+}
+
+void ShaderFactory::initDefaultShaderObject() {
+    // TODO implement
+}
+
+Shader* ShaderFactory::getDefault2DShaderObject() {
+    if (!_default2DShaderObject) {
+        initDefaultShaderObject();
+    }
+
+    return _default2DShaderObject;
 }
 
 GLuint ShaderFactory::createFromFileNames(const std::string &vshaderFile, const std::string fshaderFile) {
