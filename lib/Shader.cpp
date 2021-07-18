@@ -25,3 +25,13 @@ void Shader::use() {
     glUseProgram(_shaderHandle);
 
 }
+
+void Shader::setHandle(GLuint handle) {
+    _shaderHandle = handle;
+}
+
+void Shader::setSingleColor(float *color) {
+    glUniform4fv(100, 1, color);
+}
+
+

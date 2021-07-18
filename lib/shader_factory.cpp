@@ -23,7 +23,9 @@ GLuint ShaderFactory::getDefault2DShader() {
 }
 
 void ShaderFactory::initDefaultShaderObject() {
-    // TODO implement
+    _default2DShaderObject = new Shader();
+    _default2DShaderObject->setHandle(getDefault2DShader());
+
 }
 
 Shader* ShaderFactory::getDefault2DShaderObject() {

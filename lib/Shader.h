@@ -14,8 +14,11 @@ public:
     virtual void setModelMatrix(glm::mat4 modelMatrix);
     virtual void setViewMatrix(glm::mat4 viewMatrix);
     virtual void setProjectionMatrix(glm::mat4 projectionMatrix);
+    void setHandle(GLuint handle);
     void use();
 
+
+    void setSingleColor(float *color);
 
 protected:
     GLuint _shaderHandle;

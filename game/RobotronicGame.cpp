@@ -41,7 +41,7 @@ void RobotronicGame::init() {
 
     // Warm up the shaderfactory
     ShaderFactory shaderFactory;
-    shaderFactory.getDefault2DShader();
+    shaderFactory.getDefault2DShaderObject();
 
 
 }
