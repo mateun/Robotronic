@@ -78,6 +78,19 @@ void VAOFactory::initUnitRectVAO() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(0);
 
+    GLuint vboUVs;
+    float uvValues[] = {
+            0, 1,   // top left
+            0, 0,  // bottom left
+            1, 0,    // bottom right
+            1, 1,        // top right
+    };
+    glGenBuffers(1, &vboUVs);
+    glBindBuffer(GL_ARRAY_BUFFER, vboUVs);
+    glBufferData(GL_ARRAY_BUFFER, 8*4, uvValues, GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(1);
+
     GLuint indices[] = {
         0, 1, 2, 0, 2, 3
     };

@@ -30,10 +30,12 @@ RobotronicGame::RobotronicGame() {
     platformData[1].dimension = {1, 0.25};
     platformData[1].topEdgeY = platformData[1].position.y + platformData->dimension.y * ar;
 
+
+
 }
 
 void RobotronicGame::init() {
-    player = new View(new float[]{0.7, 0.7, 0.04, 1});
+
     firstPlatform = new View(new float[] {0.3, 0.2, 0.3, 1});
     secondPlatform = new View(new float[] {0.3, 0.2, 0.3, 1});
 
@@ -43,6 +45,18 @@ void RobotronicGame::init() {
     ShaderFactory shaderFactory;
     shaderFactory.getDefault2DShaderObject();
 
+    _heroTexture = new Texture(64, 64);
+    uint8_t* texData = new uint8_t[64*64*4];
+    for (int i = 0; i < 64 * 64*4; i+=4) {
+        texData[i+0] = 255;
+        texData[i+1] = 25;
+        texData[i+2] = 25;
+        texData[i+3] = 255;
+
+    }
+    _heroTexture->setData(texData);
+    player = new View(_heroTexture);
+    delete(texData);
 
 }
 
@@ -124,9 +138,9 @@ void RobotronicGame::render(float frameTimeInSeconds) {
     glm::vec2 screenSize { screenWidth, screenHeight};
     player->drawAtNormalizedCoords(playerPos, glm::vec2(0.07, 0.1), screenSize);
 
-    for (int i = 0; i < 5; i++) {
+    /*for (int i = 0; i < 5; i++) {
         player->drawAtNormalizedCoords(glm::vec2(i*.1, i * .1), glm::vec2(0.1, 0.1), screenSize);
-    }
+    }*/
 
 
     firstPlatform->drawAtNormalizedCoords(platformData[0].position, platformData[0].dimension, screenSize);

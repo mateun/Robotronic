@@ -6,7 +6,20 @@
 #define ROBOTRONIC_TEXTURE_H
 
 
-class texture {
+#include <cstdint>
+#include <GL/glew.h>
+
+class Texture {
+
+public:
+    Texture(int w, int h);
+    void setData(uint8_t* data);
+    void use();
+
+protected:
+    GLuint _handle=0;
+    int _width;
+    int _height;
 
 };
 

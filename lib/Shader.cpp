@@ -34,4 +34,9 @@ void Shader::setSingleColor(float *color) {
     glUniform4fv(100, 1, color);
 }
 
+void Shader::setUseTexture(bool val) {
+    int v = val ? 1 : 0;
+    glUniform1i(101,v);
+}
+
 

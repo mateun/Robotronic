@@ -13,17 +13,22 @@
 
 #include <glm/glm.hpp>
 #include <GL/glew.h>
+#include "texture.h"
 
 class View {
 
 public:
     View(float* color);
+    View(Texture* texture);
     void drawAtNormalizedCoords(glm::vec2 position, glm::vec2 dimension, glm::vec2 screenSize);
 
 
 private:
     float* _color;
+    Texture* _texture = nullptr;
     glm::mat4 _projectionMatrix;
+
+    void initProjectionMatrx();
 };
 
 

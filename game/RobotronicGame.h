@@ -59,6 +59,8 @@ private:
     bool singleStepMode = true;
     bool spacePressed = false;
 
+    Texture* _heroTexture;
+
 
 
 };

@@ -11,10 +11,14 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <SDL_log.h>
 
+View::View(Texture *texture) : _texture(texture) {
+    initProjectionMatrx();
+}
+
 
 View::View(float* color) {
 
-    _projectionMatrix = glm::ortho<float>(-1, 1, -1, 1, 0.1, 100);
+    initProjectionMatrx();
     if (color == nullptr) {
         _color = new float[4];
         _color[0] = 0.4;
@@ -27,6 +31,8 @@ View::View(float* color) {
 
 }
 
+void View::initProjectionMatrx() { _projectionMatrix = glm::ortho<float>(-1, 1, -1, 1, 0.1, 100); }
+
 void View::drawAtNormalizedCoords(glm::vec2 position, glm::vec2 dimension, glm::vec2 screenSize) {
     ShaderFactory shaderFactory;
     Shader* shader =shaderFactory.getDefault2DShaderObject();
@@ -34,6 +40,14 @@ void View::drawAtNormalizedCoords(glm::vec2 position, glm::vec2 dimension, glm::
     VAOFactory vaoFactory;
     glBindVertexArray(vaoFactory.getUnitRectVAO());
     shader->use();
+
+    if (_texture) {
+        _texture->use();
+        shader->setUseTexture(true);
+    } else {
+        shader->setUseTexture(false);
+        shader->setSingleColor(_color);
+    }
 
     float ar = (float) screenSize.x / screenSize.y;
     glm::mat4 scaleMatrix = glm::scale(glm::mat4(1), glm::vec3(dimension.x, dimension.y * ar, 1));
@@ -44,7 +58,6 @@ void View::drawAtNormalizedCoords(glm::vec2 position, glm::vec2 dimension, glm::
     shader->setModelMatrix(modelMatrix);
     shader->setViewMatrix(viewMatrix);
     shader->setProjectionMatrix(_projectionMatrix);
-    shader->setSingleColor(_color);
 
     GLenum err = glGetError();
     if (err != 0) {
@@ -53,4 +66,5 @@ void View::drawAtNormalizedCoords(glm::vec2 position, glm::vec2 dimension, glm::
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
+
 

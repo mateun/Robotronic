@@ -20,6 +20,8 @@ public:
 
     void setSingleColor(float *color);
 
+    void setUseTexture(bool b);
+
 protected:
     GLuint _shaderHandle;
 
