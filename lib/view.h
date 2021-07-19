@@ -20,7 +20,7 @@ class View {
 public:
     View(float* color);
     View(Texture* texture);
-    void drawAtNormalizedCoords(glm::vec2 position, glm::vec2 dimension, glm::vec2 screenSize);
+    void drawAtNormalizedCoords(glm::vec3 position, glm::vec2 dimension, glm::vec2 screenSize);
 
 
 private:

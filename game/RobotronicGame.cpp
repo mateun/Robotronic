@@ -21,15 +21,15 @@ extern void stopGame();
 RobotronicGame::RobotronicGame() {
     screenWidth = 1920;
     screenHeight = 1080;
-    playerPos = glm::vec2(-0.9, -0.0);
-    playerVelocity = glm::vec2{0,0};
-    playerJumpAcceleration = glm::vec2(0, 0);
+    playerPos = glm::vec3(-0.9, -0.0, 0);
+    playerVelocity = glm::vec3{0,0, 0};
+    playerJumpAcceleration = glm::vec3(0, 0, 0);
 
     float ar = (float) screenWidth / screenHeight;
-    platformData[0].position = {-1, -1};
+    platformData[0].position = {-1, -1, 0};
     platformData[0].dimension = {0.8, 0.25};
     platformData[0].topEdgeY = platformData[0].position.y + platformData->dimension.y * ar;
-    platformData[1].position = {0, -1};
+    platformData[1].position = {0, -1, 0};
     platformData[1].dimension = {1, 0.25};
     platformData[1].topEdgeY = platformData[1].position.y + platformData->dimension.y * ar;
 
@@ -61,10 +61,16 @@ void RobotronicGame::init() {
     int imageChannels, w, h;
     std::string basePath(SDL_GetBasePath());
     uint8_t* imgBytes = stbi_load((basePath + "../assets/hero.png").c_str(), &w, &h, &imageChannels, 4);
-
     _heroTexture->setData(imgBytes);
     player = new View(_heroTexture);
     delete(texData);
+    delete(imgBytes);
+
+    imgBytes = stbi_load((basePath + "../assets/tile_green.png").c_str(), &w, &h, &imageChannels, 4);
+    _greenTileTexture = new Texture(64, 64);
+    _greenTileTexture->setData(imgBytes);
+    grassTile = new View(_greenTileTexture);
+    delete(imgBytes);
 
 }
 
@@ -87,6 +93,7 @@ void RobotronicGame::updatePlayerPos(float frameTime) {
     playerAcceleration.y = (playerJumpAcceleration.y + gravity) * frameTime;
     playerAcceleration.x = 0;
     playerVelocity += playerAcceleration;
+    playerVelocity.z = 0;
     playerPos += playerVelocity;
 
     float ar = (float) screenWidth / screenHeight;
@@ -110,8 +117,8 @@ void RobotronicGame::update(float frameTimeInSeconds, const std::vector<SDL_Even
                 stopGame();
             }
             if (fe.key.keysym.sym == SDLK_r) {
-                playerPos = glm::vec2{-0.25, .25};
-                playerVelocity = {0, 0};
+                playerPos = glm::vec3{-0.25, .25, 0};
+                playerVelocity = {0, 0, 0};
             }
 
             if (fe.key.keysym.sym == SDLK_s) {
@@ -126,7 +133,7 @@ void RobotronicGame::update(float frameTimeInSeconds, const std::vector<SDL_Even
             if (fe.key.keysym.sym == SDLK_j) {
                 if (isJumping == false) {
                     isJumping = true;
-                    playerJumpAcceleration = glm::vec2(0, 0.38);
+                    playerJumpAcceleration = glm::vec3(0, 0.38, 0);
                 }
 
             }
@@ -144,11 +151,20 @@ void RobotronicGame::update(float frameTimeInSeconds, const std::vector<SDL_Even
 
 void RobotronicGame::render(float frameTimeInSeconds) {
     glm::vec2 screenSize { screenWidth, screenHeight};
-    player->drawAtNormalizedCoords(playerPos, glm::vec2(0.1, 0.1), screenSize);
 
-    /*for (int i = 0; i < 5; i++) {
-        player->drawAtNormalizedCoords(glm::vec2(i*.1, i * .1), glm::vec2(0.1, 0.1), screenSize);
-    }*/
+
+    for (int i = 0; i < 10; i++) {
+        grassTile->drawAtNormalizedCoords(glm::vec3(-1 + (i*.08), -.4 + i * .09, -5 + (i * 0.1)), glm::vec2(0.17, 0.1), screenSize);
+    }
+    for (int i = 0; i < 10; i++) {
+        grassTile->drawAtNormalizedCoords(glm::vec3(-0.85 + (i*.08), -0.4+i * .09, -4 + (i * 0.1)), glm::vec2(0.17, 0.1), screenSize);
+    }
+    for (int i = 0; i < 10; i++) {
+        grassTile->drawAtNormalizedCoords(glm::vec3(-0.65 + (i*.08), -.4 + i * .09, -3 + (i * 0.1)), glm::vec2(0.17, 0.1), screenSize);
+    }
+
+    player->drawAtNormalizedCoords(playerPos, glm::vec3(0.1, 0.1, 0), screenSize);
+
 
 
     firstPlatform->drawAtNormalizedCoords(platformData[0].position, platformData[0].dimension, screenSize);
@@ -168,7 +184,7 @@ void RobotronicGame::render(float frameTimeInSeconds) {
 }
 
 void RobotronicGame::preRender() {
-    glClearColor(0.01, 0.02, 0.0, 1);
+    glClearColor(0.01, 0.02, 0.2, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

@@ -13,7 +13,7 @@
 
 class Platform {
 public:
-    glm::vec2 position;
+    glm::vec3 position;
     glm::vec2 dimension;
     float topEdgeY = 0;
 };
@@ -42,15 +42,16 @@ private:
     View* player;
     View* secondPlatform;
     View* firstPlatform;
+    View* grassTile;
 
     GLuint orthoGridVAO;
 
     float heightSine = 0;
     float heightValue = 0;
-    glm::vec2 playerAcceleration;
-    glm::vec2 playerJumpAcceleration;
-    glm::vec2 playerVelocity;
-    glm::vec2 playerPos;
+    glm::vec3 playerAcceleration;
+    glm::vec3 playerJumpAcceleration;
+    glm::vec3 playerVelocity;
+    glm::vec3 playerPos;
     int frame = 0;
     bool isJumping = false;
 
@@ -60,6 +61,7 @@ private:
     bool spacePressed = false;
 
     Texture* _heroTexture;
+    Texture* _greenTileTexture;
 
 
 
