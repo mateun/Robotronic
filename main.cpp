@@ -12,10 +12,15 @@
 #include "lib/imgui/imgui_impl_sdl.h"
 #include "lib/imgui/imgui_impl_opengl3.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "lib/stb_image.h"
+
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "SDL2.lib")
 #pragma comment(lib, "SDL2main.lib")
 #pragma comment(lib, "glew32.lib")
+
+
 
 
 

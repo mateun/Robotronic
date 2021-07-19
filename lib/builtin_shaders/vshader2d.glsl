@@ -12,6 +12,7 @@ out vec2 fs_uvs;
 void main() {
     gl_Position = proj * view * model * vec4(pos, 1);
     fs_uvs = uvs;
+    fs_uvs.y = 1 - fs_uvs.y;
 
 
 }

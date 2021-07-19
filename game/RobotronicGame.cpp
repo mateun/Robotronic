@@ -11,6 +11,9 @@
 #include "../lib/imgui/imgui_impl_sdl.h"
 #include "../lib/imgui/imgui_impl_opengl3.h"
 #include "../lib/vao_factory.h"
+#include "../lib/stb_image.h"
+
+
 
 
 extern void stopGame();
@@ -54,7 +57,12 @@ void RobotronicGame::init() {
         texData[i+3] = 255;
 
     }
-    _heroTexture->setData(texData);
+
+    int imageChannels, w, h;
+    std::string basePath(SDL_GetBasePath());
+    uint8_t* imgBytes = stbi_load((basePath + "../assets/hero.png").c_str(), &w, &h, &imageChannels, 4);
+
+    _heroTexture->setData(imgBytes);
     player = new View(_heroTexture);
     delete(texData);
 
@@ -136,7 +144,7 @@ void RobotronicGame::update(float frameTimeInSeconds, const std::vector<SDL_Even
 
 void RobotronicGame::render(float frameTimeInSeconds) {
     glm::vec2 screenSize { screenWidth, screenHeight};
-    player->drawAtNormalizedCoords(playerPos, glm::vec2(0.07, 0.1), screenSize);
+    player->drawAtNormalizedCoords(playerPos, glm::vec2(0.1, 0.1), screenSize);
 
     /*for (int i = 0; i < 5; i++) {
         player->drawAtNormalizedCoords(glm::vec2(i*.1, i * .1), glm::vec2(0.1, 0.1), screenSize);
